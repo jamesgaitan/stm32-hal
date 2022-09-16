@@ -146,6 +146,9 @@
     feature = "f429",
     feature = "f446",
     feature = "f469",
+    feature = "l100",
+    feature = "l151",
+    feature = "l162",
     feature = "l4x1",
     feature = "l4x2",
     feature = "l412",
@@ -239,6 +242,16 @@ pub use stm32f4::stm32f446 as pac;
 
 #[cfg(feature = "f469")]
 pub use stm32f4::stm32f469 as pac;
+
+// L1 PAC
+#[cfg(feature = "l100")]
+pub use stm32l1::stm32l100 as pac;
+
+#[cfg(feature = "l151")]
+pub use stm32l1::stm32l151 as pac;
+
+#[cfg(feature = "l162")]
+pub use stm32l1::stm32l162 as pac;
 
 // L4 PAC
 #[cfg(feature = "l4x1")]
@@ -404,6 +417,7 @@ pub mod dac;
 #[cfg(not(any(
     feature = "f3",
     feature = "f4",
+    feature = "l1",
     feature = "l4x1",
     feature = "l4x2",
     feature = "l412",
@@ -455,6 +469,7 @@ pub mod power;
 #[cfg(not(any(
 feature = "f3",
 feature = "f4",
+feature = "l1",
 feature = "l4x3", // todo: PAC bug?
 feature = "g0",
 feature = "g431",
@@ -471,6 +486,7 @@ pub mod qspi;
 #[cfg(not(any(
     feature = "f3",
     feature = "f4",
+    feature = "l1",
     feature = "g030",
     feature = "g031",
     feature = "g070",
@@ -485,6 +501,7 @@ pub mod rtc;
 #[cfg(not(any(
     feature = "f3",
     feature = "f4",
+    feature = "l1",
     feature = "g0",
     feature = "g4", // todo: G4 PAC issue re getting channel-specific reg blocks.
     feature = "h7b3",
@@ -497,6 +514,7 @@ pub mod spi;
 pub mod timer;
 pub mod usart;
 
+// todo: where does L1 family fall in here?
 // See note at top of `usb` module for info on G0; not avail on modules the PAC has avail.
 cfg_if::cfg_if! {
     if #[cfg(all(
