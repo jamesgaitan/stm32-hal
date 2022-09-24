@@ -4,8 +4,6 @@
 
 // Similar in from to the H7 clocks module, but includes notable differendes.
 
-// todo: Go through L1xx reference manual RCC section and make sure all features are handled here
-
 use crate::{
     clocks::SpeedError,
     pac::{self, FLASH, RCC},
@@ -19,7 +17,7 @@ use cfg_if::cfg_if;
 
 // todo: WB is missing second LSI2, and perhaps other things.
 
-#[cfg(not(any(feature = "l1", feature = "g0", feature = "wl")))]
+#[cfg(not(any(feature = "g0", feature = "wl")))]
 #[derive(Clone, Copy, PartialEq)]
 #[repr(u8)]
 pub enum Clk48Src {
@@ -33,7 +31,7 @@ pub enum Clk48Src {
     Msi = 0b11,
 }
 
-#[cfg(any(feature = "l1", feature = "l4", feature = "l5", feature = "wb", feature = "g4"))]
+#[cfg(any(feature = "l4", feature = "l5", feature = "wb", feature = "g4"))]
 #[derive(Clone, Copy)]
 #[repr(u8)]
 /// Select the SYNC signal source. Sets the CRS_CFGR register, SYNCSRC field.
@@ -52,7 +50,7 @@ pub enum PllSrc {
     Hse(u32),
 }
 
-#[cfg(any(feature = "l1", feature = "g0", feature = "g4"))]
+#[cfg(any(feature = "g0", feature = "g4"))]
 #[derive(Clone, Copy, PartialEq)]
 pub enum PllSrc {
     None,
@@ -135,7 +133,7 @@ cfg_if! {
                 }
             }
         }
-    } else {  // ie L1, L4, and L5
+    } else {  // ie L4, and L5
         #[derive(Clone, Copy, PartialEq)]
         pub enum InputSrc {
             Msi(MsiRange),
@@ -229,7 +227,6 @@ impl MsiRange {
     }
 }
 
-// todo: Do this for L1, might just need its own file
 // @start here
 /// Configures the speeds, and enable status of an individual PLL (PLL1, or SAIPLL). Note that the `enable`
 /// field has no effect for PLL1.
